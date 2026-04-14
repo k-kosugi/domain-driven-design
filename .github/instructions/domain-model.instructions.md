@@ -1,0 +1,27 @@
+* 実装はドメイン駆動設計を用います。エンティティ、値オブジェクト、集約、リポジトリ、ドメインサービスなどの概念を使用してください。
+* アーキテクチャーに関してはヘキサゴナルアーキテクチャーを採用している前提で回答を作ってください。
+
+* 以下のパッケージ体系を推奨します。
+```
+src/main/java/com/example/myapp
+├── domain/                      # 【最内層】ビジネスロジック・エンティティ
+│   ├── model/                   # エンティティ (User, Order)
+│   ├── valueobject/             # 値オブジェクト (Email, Address)
+│   ├── repository/              # リポジトリの「インターフェース」のみ
+│   └── service/                 # ドメインサービス（複数モデルに跨る計算など）
+│
+├── application/                 # 【内から2層目】ユースケース・進行役
+│   ├── usecase/                 # ○○サービス (RegisterUserUseCase)
+│   └── dto/                     # データ転送オブジェクト (Request/Response)
+│
+├── infrastructure/              # 【最外層：実装】具体的な技術
+│   ├── persistence/             # リポジトリの実装 (JPA, MyBatis, JDBC)
+│   │   └── jpa/                 # Entity(DB用)やJpaRepositoryなど
+│   └── external/                # 外部API連携、メール送信の実装
+│
+└── presentation/                # 【最外層：入口】外部との接点
+    ├── controller/              # REST Controller
+    ├── request/                 # HTTPリクエストのバリデーション
+    └── advice/                  # 例外ハンドリング (GlobalExceptionHandler)
+```
+* ドメインモデルには Spring Boot のアノテーションは付与してください。ただし、ドメインモデルはインフラストラクチャー層に依存しないようにしてください。
