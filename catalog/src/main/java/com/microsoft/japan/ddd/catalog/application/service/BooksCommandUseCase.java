@@ -53,7 +53,7 @@ public class BooksCommandUseCase implements SaveBookUseCase {
         book = BookMapper.toDomain(bookDTO);
 
         // ベクトルデータの取得
-        var embedding = this.embeddingPort.getEmbedding(bookDTO.contents());
+        var embedding = this.embeddingPort.getEmbedding(bookDTO.title() + " " + bookDTO.contents());
 
         // 保存
         this.bookRepository.save(book, embedding);
