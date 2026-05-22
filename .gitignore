@@ -36,3 +36,5 @@ build/
 
 ### VS Code ###
 .vscode/
+catalog-ui/node_modules/
+catalog-ui/dist/
